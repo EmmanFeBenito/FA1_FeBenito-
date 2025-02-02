@@ -1,0 +1,76 @@
+---
+title: "SEC1-FA1 GROUP 15-FE BENITO,E"
+author: "Emmanuel Fe Benito"
+date: "2025-02-02"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+  
+  ## 1. 
+  
+  ### What can you say about these data?
+  The data is a lot and quite varied.
+
+```{r load-data, echo=TRUE}
+data <- read.csv("C:/Users/Emmanuel/Documents/results.txt")
+```
+
+### Pearson Skewness Function
+
+```{r pearson-skewness, echo=TRUE}
+pearson_skewness <- function(column) {
+  mean_val <- mean(column, na.rm = TRUE)  
+  median_val <- median(column, na.rm = TRUE) 
+  std_dev <- sd(column, na.rm = TRUE)
+  skewness <- 3 * (mean_val - median_val) / std_dev
+  return(skewness)
+}
+
+skewness_results <- sapply(data[, -1], pearson_skewness)
+print(skewness_results)
+```
+
+### Exact Skewness Calculation
+
+```{r exact-skewness, echo=TRUE}
+library(e1071)
+exact_skewness <- sapply(data[, -1], skewness, na.rm = TRUE)
+print(exact_skewness)
+```
+
+### Is it a reasonable approximation?
+It is somewhat reasonable. The difference is fairly negligible, though it is still inaccurate. If looking for trends, it's fairly reasonable, but if accuracy is the concern, then it's best not to rely on it.
+
+## 2.
+
+```{r gender-data, echo=TRUE}
+Females <- c(57, 59, 78, 79, 60, 65, 68, 71, 75, 48, 51, 55, 56, 41, 43,
+             44, 75, 78, 80, 81, 83, 83, 85)
+Males <- c(48, 49, 49, 30, 30, 31, 32, 35, 37, 41, 86, 42, 51, 53, 56,
+           42, 44, 50, 51, 65, 67, 51, 56, 58, 64, 64, 75)
+```
+
+### Stem-and-Leaf Display
+
+```{r stem-plot, echo=TRUE}
+stem(Females)
+stem(Males)
+```
+
+### Stem-and-Leaf Display Discussion
+This presentation showcases the raw individual values, allowing for more precise evaluation compared to a histogram.
+
+### Box-Plots
+
+```{r box-plots, echo=TRUE}
+boxplot(Females, main="Females Box-Plot", ylab="Scores")
+boxplot(Males, main="Males Box-Plot", ylab="Scores")
+```
+
+### Analysis of Box-Plots
+- The box plot shows that the scores are significantly higher on average for the females compared to the males.
+- The box plot for females is also bigger, showing more variation in scores compared to the smaller and more compact male scores.
+- There's also an outlier in the male's box plot way up in the 80s, but none in the female's box plot.
